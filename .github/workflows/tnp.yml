@@ -1,5 +1,8 @@
 name: TNP Scraper
 
+permissions:
+  contents: write
+
 on:
   schedule:
     - cron: "30 3 * * *"
@@ -21,9 +24,16 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+          playwright install --with-deps chromium
 
       - name: Run scraper
+        env:
+          USERNAME_TP: ${{ secrets.USERNAME_TP }}
+          PASSWORD_TP: ${{ secrets.PASSWORD_TP }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python scraper.py
 
       - name: Commit updated state.json

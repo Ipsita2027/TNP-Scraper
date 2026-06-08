@@ -110,7 +110,7 @@ def main():
             structurefine(news)
 
         except Exception as e:
-            print(f"An exception occured:{e.message}")
+            print(f"An exception occured:{e}")
             ping_telegram("Could not fetch the announcements")
 
 
